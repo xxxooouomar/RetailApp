@@ -1,0 +1,14 @@
+
+<?php
+// Database configuration
+define('DB_SERVER', 'tcp:retailsr.database.windows.net,1433');
+define('DB_USERNAME', 'adminuser');
+define('DB_PASSWORD', 'Ly7002om');
+define('DB_NAME', 'RetailDB');
+
+// Azure Blob Storage configuration
+define('BLOB_STORAGE_CONNECTION', 'DefaultEndpointsProtocol=https;AccountName=retailstorage12;AccountKey=/8lXJTw+wEH8NdYt1F2uFzafTbz0FrAkvyFQy9VxmjDSrFyfVeDxaC+uNJgTyKEf5donP30Rax90+AStqn+XMA==;EndpointSuffix=core.windows.net');
+
+// Other settings
+define('APP_ENV', 'development'); // Change to 'production' when live
+?>

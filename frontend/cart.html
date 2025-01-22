@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetailApp - Cart</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .total {
+            font-weight: bold;
+            text-align: right;
+            padding: 15px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Your Cart</h1>
+    </header>
+    <main>
+        <table id="cart-table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Cart items will be populated dynamically -->
+            </tbody>
+        </table>
+        <div class="total" id="grand-total">Grand Total: $0.00</div>
+        <a href="checkout.html" class="btn">Proceed to Checkout</a>
+    </main>
+    <script>
+        const apiBaseUrl = "https://retailapp-byatb6cwayabexcc.southeastasia-01.azurewebsites.net";
+
+        async function loadCart() {
+            const userId = 1; // Replace with dynamic user ID if available
+            const response = await fetch(`${apiBaseUrl}/view_cart.php?user_id=${userId}`);
+            const cartItems = await response.json();
+
+            const cartTableBody = document.querySelector("#cart-table tbody");
+            const grandTotalElement = document.querySelector("#grand-total");
+
+            let grandTotal = 0;
+            cartTableBody.innerHTML = ""; // Clear existing rows
+
+            cartItems.forEach(item => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>$${item.price.toFixed(2)}</td>
+                    <td>$${item.total.toFixed(2)}</td>
+                `;
+                cartTableBody.appendChild(row);
+                grandTotal += item.total;
+            });
+
+            grandTotalElement.textContent = `Grand Total: $${grandTotal.toFixed(2)}`;
+        }
+
+        document.addEventListener("DOMContentLoaded", loadCart);
+    </script>
+</body>
+</html>

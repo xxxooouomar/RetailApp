@@ -1,0 +1,10 @@
+
+/vendor
+error_log.txt
+.env
+*.log
+*.cache
+node_modules
+.idea
+.DS_Store
+Thumbs.db

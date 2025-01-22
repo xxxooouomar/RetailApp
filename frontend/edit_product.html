@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetailApp - Edit Product</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+        }
+        h2 {
+            margin: 0 0 20px;
+            color: #4CAF50;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        textarea {
+            resize: vertical;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Edit Product</h2>
+        <form id="edit-product-form">
+            <label for="id">Product ID:</label>
+            <input type="text" id="id" name="id" required>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" step="0.01" required>
+            <label for="image_url">Image URL:</label>
+            <input type="url" id="image_url" name="image_url">
+            <input type="submit" value="Update Product">
+        </form>
+    </div>
+    <script>
+        const apiBaseUrl = "https://retailapp-byatb6cwayabexcc.southeastasia-01.azurewebsites.net";
+
+        const editProductForm = document.querySelector("#edit-product-form");
+        editProductForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const id = document.querySelector("#id").value;
+            const name = document.querySelector("#name").value;
+            const description = document.querySelector("#description").value;
+            const price = document.querySelector("#price").value;
+            const image_url = document.querySelector("#image_url").value;
+
+            const response = await fetch(`${apiBaseUrl}/update_product.php`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id, name, description, price, image_url }),
+            });
+
+            const data = await response.json();
+            if (data.status === "success") {
+                alert("Product updated successfully!");
+                editProductForm.reset();
+            } else {
+                alert("Failed to update product: " + data.message);
+            }
+        });
+    </script>
+</body>
+</html>
